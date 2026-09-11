@@ -5,18 +5,16 @@ afterEach(() => {
   vi.useRealTimers();
 });
 it('sends runtime authentication and preserves backend field errors', async () => {
-  const fetcher = vi
-    .fn()
-    .mockResolvedValue(
-      new Response(
-        JSON.stringify({
-          code: 'VALIDATION_ERROR',
-          message: 'Invalid data',
-          fieldErrors: { age: 'Too young' },
-        }),
-        { status: 400 },
-      ),
-    );
+  const fetcher = vi.fn().mockResolvedValue(
+    new Response(
+      JSON.stringify({
+        code: 'VALIDATION_ERROR',
+        message: 'Invalid data',
+        fieldErrors: { age: 'Too young' },
+      }),
+      { status: 400 },
+    ),
+  );
   vi.stubGlobal('fetch', fetcher);
   await expect(
     createApi({ username: 'reviewer', password: 'password' }).list(),
