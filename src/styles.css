@@ -1,0 +1,311 @@
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+body {
+  margin: 0;
+}
+a {
+  color: inherit;
+}
+.site-header {
+  min-height: 92px;
+  max-width: 1280px;
+  margin: auto;
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  border-bottom: 1px solid #dce1d7;
+}
+.brand {
+  font-size: 36px;
+  letter-spacing: -2px;
+  font-weight: 750;
+  text-decoration: none;
+}
+.brand-dot {
+  color: #738443;
+}
+.header-label {
+  font-size: 11px;
+  letter-spacing: 1.8px;
+  color: #626f67;
+  flex: 1;
+}
+.signin-layout {
+  max-width: 1184px;
+  margin: 56px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+  border: 1px solid #dce1d7;
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+}
+.signin-card {
+  padding: 64px;
+}
+.signin-aside {
+  background: #173f35;
+  color: #edf3dd;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 52px;
+}
+.abstract-mark {
+  position: relative;
+  width: 235px;
+  height: 235px;
+  margin: 0 0 60px;
+}
+.abstract-mark span {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border: 1px solid #a5b683;
+  border-radius: 50%;
+}
+.abstract-mark span:nth-child(2) {
+  left: 52px;
+}
+.abstract-mark span:nth-child(3) {
+  left: 26px;
+  top: 47px;
+  background: #ddeb9220;
+}
+.quote-layout {
+  max-width: 1184px;
+  margin: 48px auto;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+.flow-sidebar {
+  padding: 28px 14px 24px 0;
+  position: sticky;
+  top: 20px;
+}
+.eyebrow.MuiTypography-root {
+  font-size: 10px;
+  letter-spacing: 1.9px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.flow-sidebar .MuiStepLabel-label {
+  font-size: 14px;
+}
+.sidebar-note.MuiTypography-root {
+  max-width: 210px;
+  margin-top: 54px;
+  color: #626f67;
+}
+.form-panel {
+  background: white;
+  border: 1px solid #dce1d7;
+  border-radius: 14px;
+  padding: 48px;
+  min-width: 0;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+.coverage-options {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.coverage-option {
+  border: 1px solid #d9dfd6;
+  border-radius: 10px;
+  padding: 12px 4px;
+}
+.coverage-option.selected {
+  border: 2px solid #173f35;
+  padding: 11px 3px;
+  background: #f4f7eb;
+}
+.coverage-option .MuiFormControlLabel-root {
+  align-items: flex-start;
+  margin: 0;
+  width: 100%;
+}
+.coverage-option .MuiRadio-root {
+  padding: 7px;
+}
+.coverage-option .MuiFormControlLabel-label {
+  padding-top: 6px;
+}
+.coverage-option .MuiTypography-root {
+  font-size: 13px;
+}
+.health-section {
+  border-top: 1px solid #e3e6df;
+  margin-top: 32px;
+  padding-top: 28px;
+}
+.premium-preview {
+  margin-top: 32px;
+  padding: 24px;
+  background: #eef3df;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+.premium-preview .MuiTypography-h3 {
+  margin-top: 8px;
+}
+.detail-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 11px 0;
+}
+.detail-row dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.site-footer {
+  max-width: 1280px;
+  padding: 24px 48px;
+  margin: auto;
+  border-top: 1px solid #dce1d7;
+  color: #626f67;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 999;
+  background: white;
+  padding: 12px;
+}
+.skip-link:focus {
+  top: 8px;
+}
+h1:focus {
+  outline: none;
+}
+@media (max-width: 1240px) {
+  .quote-layout,
+  .signin-layout {
+    margin: 36px 28px;
+  }
+  .quote-layout {
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 28px;
+  }
+  .form-panel {
+    padding: 36px;
+  }
+}
+@media (max-width: 800px) {
+  .site-header {
+    padding: 16px 24px;
+    min-height: 78px;
+    gap: 16px;
+  }
+  .header-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .quote-layout {
+    grid-template-columns: minmax(0, 1fr);
+    margin: 20px;
+    gap: 20px;
+  }
+  .flow-sidebar {
+    position: static;
+    padding: 0;
+  }
+  .flow-sidebar > p,
+  .sidebar-note.MuiTypography-root {
+    display: none;
+  }
+  .flow-sidebar .MuiStepper-root {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .flow-sidebar .MuiStepConnector-root {
+    display: none;
+  }
+  .flow-sidebar .MuiStepLabel-root {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+  .flow-sidebar .MuiStepLabel-label {
+    font-size: 11px;
+  }
+  .flow-sidebar .MuiStepLabel-iconContainer {
+    padding: 0;
+  }
+  .form-panel {
+    padding: 28px 24px;
+  }
+  .signin-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    margin: 28px 20px;
+  }
+  .signin-card {
+    padding: 40px 28px;
+  }
+  .signin-aside {
+    display: none;
+  }
+  .site-footer {
+    padding: 24px;
+  }
+}
+@media (max-width: 460px) {
+  .coverage-options {
+    grid-template-columns: 1fr;
+  }
+  .coverage-option .MuiFormControlLabel-label {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    padding-right: 12px;
+  }
+  .coverage-option .MuiFormControlLabel-root {
+    align-items: center;
+  }
+  .detail-row {
+    gap: 12px;
+  }
+  .detail-row .MuiTypography-root {
+    font-size: 14px;
+  }
+  .premium-preview {
+    padding: 20px;
+  }
+  .quote-layout {
+    margin: 20px 12px;
+  }
+  .form-panel {
+    padding: 26px 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
