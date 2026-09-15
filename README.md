@@ -1,6 +1,6 @@
 # Clara Quotes frontend
 
-Three-step insurance quote flow in React, TypeScript, MUI, React Hook Form, Yup, Context and React Router. It calls the [Java/Spring backend](https://github.com/5h1rU/clara-quotes-backend) directly. Both repositories are intentionally private at the candidate’s request, an explicit departure from the brief’s public-repository requirement.
+Three-step insurance quote flow in React, TypeScript, MUI, React Hook Form, Yup, Context and React Router. It calls the [Java/Spring backend](https://github.com/5h1rU/clara-quotes-backend) directly. Both repositories are public and can be cloned directly.
 
 ## Run
 
@@ -36,7 +36,7 @@ npx playwright install chromium
 npm run test:e2e          # actual frontend + running backend; desktop and mobile Chromium
 ```
 
-Unit tests cover personal validation, saving before navigation, the age boundary, conditional clearing of health fields, live estimates, submission errors and API error translation. Only unit tests replace API/context boundaries. Browser tests use real HTTP, PostgreSQL, Kafka and the public insurer stand-in, so they require the backend and internet access. They create clearly named synthetic test quotes and never use real personal data. They intentionally do not delete existing quotes. An optional GitHub Actions template in `docs/ci/github-actions.yml` runs lint, component tests and build. It is not installed as a workflow because the current OAuth token lacks workflow permission. Browser tests are explicitly local because the sibling repository is private.
+Unit tests cover personal validation, saving before navigation, the age boundary, conditional clearing of health fields, live estimates, submission errors and API error translation. Only unit tests replace API/context boundaries. Browser tests use real HTTP, PostgreSQL, Kafka and the public insurer stand-in, so they require the backend and internet access. They create clearly named synthetic test quotes and never use real personal data. They intentionally do not delete existing quotes. An optional GitHub Actions template in `docs/ci/github-actions.yml` runs lint, component tests and build. It is not installed as a workflow because the current OAuth token lacks workflow permission. Browser tests require both repositories running locally.
 
 ## Approach
 
@@ -56,7 +56,7 @@ The layout keeps one task visible at a time, with progress, field errors, and a 
 
 ## AI use and limitations
 
-OpenAI Codex assisted with the plan, implementation, tests, debugging, documentation and browser verification. Felipe specified the stack, private repository requirement, progressive commits and learning goals. Generated changes were checked with type, lint, component and browser tests. The code tour supports Felipe’s ongoing manual review and interview preparation; dated validation results are recorded below. Commit authorship uses Felipe's Git identity without an AI co-author trailer.
+OpenAI Codex assisted with the plan, implementation, tests, debugging, documentation and browser verification. Felipe specified the stack, progressive commits and learning goals. Generated changes were checked with type, lint, component and browser tests. The code tour supports Felipe’s ongoing manual review and interview preparation; dated validation results are recorded below. Commit authorship uses Felipe's Git identity without an AI co-author trailer.
 
 Implementation challenges included the MUI version's `sx` styling API, backend preflight configuration, and restoring state after uncertain submission responses. The application is a take-home demonstration, not an insurance product or real policy purchase. Shared reviewer credentials, USD and US ZIP codes are documented assumptions. API lists have no pagination because the challenge asks for all quotes. Browser tests against the public stand-in may fail when that external service is unavailable.
 
