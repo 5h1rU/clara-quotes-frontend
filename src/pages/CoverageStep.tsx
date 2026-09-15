@@ -1,3 +1,4 @@
+import { isSenior } from '../applicantRules';
 import { useState } from 'react';
 import {
   Box,
@@ -58,7 +59,7 @@ export function CoverageStep() {
   const { quote, saveCoverage } = useQuote();
   const navigate = useNavigate();
   const [error, setError] = useState<unknown>(null);
-  const senior = (quote?.age ?? 0) > 65;
+  const senior = isSenior(quote?.age ?? 0);
   const {
     control,
     handleSubmit,

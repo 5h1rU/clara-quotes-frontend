@@ -1,3 +1,4 @@
+import { isSenior } from './applicantRules';
 import type { CoverageType, HealthDetails } from './types';
 export const coverageOptions: { value: CoverageType; label: string; base: number }[] = [
   { value: 'BASIC', label: 'Basic', base: 50 },
@@ -11,15 +12,15 @@ export const conditionOptions = [
   { value: 'CANCER_HISTORY', label: 'Cancer history' },
   { value: 'OTHER', label: 'Other' },
 ] as const;
-export const money = (amount: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+const moneyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+export const money = (amount: number) => moneyFormatter.format(amount);
 export function estimatePremium(
   coverage: CoverageType,
   age: number,
   health: Partial<HealthDetails>,
 ): number {
   const cents = (coverageOptions.find((option) => option.value === coverage)?.base ?? 0) * 100;
-  const senior = age > 65;
+  const senior = isSenior(age);
   const factors = [
     senior ? 15 : 10,
     senior && health.hasPreexistingConditions && health.conditions?.length ? 13 : 10,

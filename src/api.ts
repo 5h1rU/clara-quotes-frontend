@@ -23,15 +23,16 @@ export function createApi(credentials: Credentials) {
         credentials: 'omit',
         headers: { 'Content-Type': 'application/json', Authorization: authorization },
       });
-      const body = await response.json().catch(() => null);
-      if (!response.ok)
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
         throw new ApiError(
           body?.message ?? 'The request could not be completed.',
           response.status,
           body?.code ?? 'HTTP_ERROR',
           body?.fieldErrors ?? {},
         );
-      return body as T;
+      }
+      return (await response.json().catch(() => null)) as T;
     } catch (error) {
       if (error instanceof ApiError) throw error;
       throw new ApiError(
@@ -46,6 +47,7 @@ export function createApi(credentials: Credentials) {
     }
   }
   return {
+    checkSession: () => request<void>('/session'),
     list: () => request<Quote[]>('/quotes'),
     get: (id: string) => request<Quote>(`/quotes/${id}`),
     create: (data: PersonalInfo) =>

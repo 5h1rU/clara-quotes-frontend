@@ -1,8 +1,10 @@
+import { isSenior } from '../applicantRules';
 import { useState } from 'react';
 import { Alert, Box, Button, Chip, Divider, Stack, Typography } from '@mui/material';
 import CheckCircleOutlineRounded from '@mui/icons-material/CheckCircleOutlineRounded';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useQuote } from '../QuoteContext';
+import type { Quote, QuoteStatus } from '../types';
 import { conditionOptions, coverageOptions, money } from '../pricing';
 import { StepHeading } from '../components/StepHeading';
 import { ErrorNotice } from '../components/ErrorNotice';
@@ -16,50 +18,37 @@ function Detail({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-export function SummaryStep() {
-  const { quote, submit, reload, startNew } = useQuote();
-  const navigate = useNavigate();
-  const [error, setError] = useState<unknown>(null);
-  const [busy, setBusy] = useState(false);
-  if (!quote) return <Navigate to="/personal" replace />;
+function SummaryHeading({ status }: { status: QuoteStatus }) {
+  if (status === 'SUBMITTED')
+    return (
+      <StepHeading
+        step="QUOTE SUBMITTED"
+        title="You're all set."
+        description="Your quote has been submitted successfully."
+      />
+    );
+  if (status === 'EXPIRED')
+    return (
+      <StepHeading
+        step="STEP 03 / REVIEW"
+        title="This quote has expired."
+        description="Start a new quote to get an updated estimate."
+      />
+    );
+  return (
+    <StepHeading
+      step="STEP 03 / REVIEW"
+      title="Everything look right?"
+      description="Review your details before submitting your quote."
+    />
+  );
+}
+function QuoteDetails({ quote }: { quote: Quote }) {
   const submitted = quote.status === 'SUBMITTED';
   const expired = quote.status === 'EXPIRED';
-  if (!quote.coverageType && !expired) return <Navigate to="/coverage" replace />;
   const yesNo = (value: boolean | null) => (value ? 'Yes' : 'No');
-  const newQuote = () => {
-    startNew();
-    navigate('/personal');
-  };
   return (
     <>
-      <StepHeading
-        step={submitted ? 'QUOTE SUBMITTED' : 'STEP 03 / REVIEW'}
-        title={
-          submitted
-            ? "You're all set."
-            : expired
-              ? 'This quote has expired.'
-              : 'Everything look right?'
-        }
-        description={
-          submitted
-            ? 'Your quote has been submitted successfully.'
-            : expired
-              ? 'Start a new quote to get an updated estimate.'
-              : 'Review your details before submitting your quote.'
-        }
-      />
-      {submitted && (
-        <Alert icon={<CheckCircleOutlineRounded />} severity="success" sx={{ mb: 3 }}>
-          Submission confirmed. Keep your quote reference below.
-        </Alert>
-      )}
-      {quote.status === 'SUBMISSION_FAILED' && (
-        <Alert severity="warning" sx={{ mb: 3 }}>
-          Your details are saved. The previous submission failed; you can try again.
-        </Alert>
-      )}
-      <ErrorNotice error={error} />
       <Stack direction="row" sx={{ gap: 1, mb: 3 }}>
         <Chip
           size="small"
@@ -80,7 +69,7 @@ export function SummaryStep() {
         <Detail label="Email address" value={quote.email} />
         <Detail label="Age" value={String(quote.age)} />
         <Detail label="ZIP code" value={quote.zipCode} />
-        {quote.age > 65 && quote.coverageType && (
+        {isSenior(quote.age) && quote.coverageType && (
           <>
             <Divider sx={{ my: 2 }} />
             <Detail
@@ -102,6 +91,37 @@ export function SummaryStep() {
           </>
         )}
       </Box>
+    </>
+  );
+}
+export function SummaryStep() {
+  const { quote, submit, reload, startNew } = useQuote();
+  const navigate = useNavigate();
+  const [error, setError] = useState<unknown>(null);
+  const [busy, setBusy] = useState(false);
+  if (!quote) return <Navigate to="/personal" replace />;
+  const submitted = quote.status === 'SUBMITTED';
+  const expired = quote.status === 'EXPIRED';
+  if (!quote.coverageType && !expired) return <Navigate to="/coverage" replace />;
+  const newQuote = () => {
+    startNew();
+    navigate('/personal');
+  };
+  return (
+    <>
+      <SummaryHeading status={quote.status} />
+      {submitted && (
+        <Alert icon={<CheckCircleOutlineRounded />} severity="success" sx={{ mb: 3 }}>
+          Submission confirmed. Keep your quote reference below.
+        </Alert>
+      )}
+      {quote.status === 'SUBMISSION_FAILED' && (
+        <Alert severity="warning" sx={{ mb: 3 }}>
+          Your details are saved. The previous submission failed; you can try again.
+        </Alert>
+      )}
+      <ErrorNotice error={error} />
+      <QuoteDetails quote={quote} />
       <Box className="premium-preview" sx={{ mt: 3 }}>
         <div>
           <Typography variant="body2">Estimated monthly premium</Typography>

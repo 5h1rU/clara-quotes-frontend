@@ -28,3 +28,22 @@ it('turns an offline service into an actionable error', async () => {
     status: 0,
   });
 });
+it('preserves the HTTP status when an error response is not JSON', async () => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('Unavailable', { status: 503 })));
+  await expect(createApi({ username: 'x', password: 'y' }).list()).rejects.toMatchObject({
+    code: 'HTTP_ERROR',
+    status: 503,
+  });
+});
+it('reads successful JSON and accepts an empty session response', async () => {
+  vi.stubGlobal(
+    'fetch',
+    vi
+      .fn()
+      .mockResolvedValueOnce(new Response('[]', { status: 200 }))
+      .mockResolvedValueOnce(new Response(null, { status: 204 })),
+  );
+  const api = createApi({ username: 'x', password: 'y' });
+  await expect(api.list()).resolves.toEqual([]);
+  await expect(api.checkSession()).resolves.toBeNull();
+});

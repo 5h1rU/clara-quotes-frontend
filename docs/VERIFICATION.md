@@ -1,5 +1,15 @@
 # Verification record
 
+## Review follow-up, 2026-09-15
+
+- `npm test`: 15 tests across 6 files passed.
+- `npm run test:e2e -- --grep-invert 'senior flow'`: 4 desktop/mobile browser checks passed against the rebuilt real API (age boundary, back navigation/personal edits, and invalid credentials). Successful-submission browser cases were excluded because the existing local API intentionally points to public `/status/503`; that setting was preserved. The current backend success/idempotency regression tests use the deterministic insurer boundary.
+- `npm run lint` and `npm run build`: passed. The existing approximately 610 kB bundle warning remains nonblocking.
+- New Context tests verify sign-in uses `/session`, coverage conflicts refresh EXPIRED/SUBMITTED state, and failed reconciliation preserves the original error.
+- A routed component test uses the real Context and screens with a mocked HTTP boundary: coverage save receives 409, GET returns EXPIRED, the app shows the expired summary, and Start a new quote clears the saved ID and opens the personal form.
+
+## Original verification, 2026-09-11
+
 Executed locally on 2026-09-11 against the real backend, PostgreSQL, Kafka, and public HTTP insurer stand-in.
 
 - `npm test`: 10 tests across 5 files passed.

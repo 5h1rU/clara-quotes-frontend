@@ -1,6 +1,6 @@
 # Clara Quotes frontend
 
-Three-step insurance quote flow in React, TypeScript, MUI, React Hook Form, Yup, Context and React Router. It calls the [Java/Spring backend](https://github.com/5h1rU/clara-quotes-backend) directly. Both repositories are intentionally private.
+Three-step insurance quote flow in React, TypeScript, MUI, React Hook Form, Yup, Context and React Router. It calls the [Java/Spring backend](https://github.com/5h1rU/clara-quotes-backend) directly. Both repositories are intentionally private at the candidate’s request, an explicit departure from the brief’s public-repository requirement.
 
 ## Run
 
@@ -46,9 +46,9 @@ The layout keeps one task visible at a time, with progress, field errors, and a 
 
 ## Decisions and their locations
 
-- `QuoteContext.tsx` owns the saved quote and authenticated client. Routes consume it rather than pass state through a long prop chain. Context is sufficient for this small workflow; no global state library is needed.
+- `QuoteContext.tsx` owns the saved quote and authenticated client. Routes consume it rather than pass state through a long prop chain. Context is sufficient for this small workflow; no global state library is needed. Sign-in checks `/session` without downloading all quotes. A 409 while saving coverage refreshes the saved quote, allowing terminal states to redirect to the summary and offer a new quote.
 - `pages/PersonalStep.tsx` validates with Yup and React Hook Form. Re-entering unchanged details reuses the quote. Editing personal data creates a new draft because the fixed contract has no personal-data update endpoint; a visible notice explains this and the previous draft expires naturally. Creating a quote is not idempotent, so a lost create response can leave an abandoned draft.
-- `pages/CoverageStep.tsx` shows health questions only over 65 and strips those properties entirely for younger applicants. Changing conditions to No clears previous selections. This is usability, not the security boundary: the server independently rejects invalid data.
+- `applicantRules.ts` defines the age boundary used by coverage, summary and preview. `pages/CoverageStep.tsx` shows health questions only over 65 and strips those properties entirely for younger applicants. Changing conditions to No clears previous selections. This is usability, not the security boundary: the server independently rejects invalid data.
 - `pricing.ts` mirrors the fixed formula for instant preview. It uses integer-scaled factors and rounds at the end. The summary always uses the server's saved price; the browser is never authoritative about the amount.
 - `pages/SummaryStep.tsx` reviews every collected field, including medication and spouse coverage, before submission. SUBMITTED and EXPIRED states cannot be edited. Failed submissions can retry. After an interrupted request, Context reloads saved state to reconcile possible server success before displaying an error.
 - `api.ts` centralizes explicit authentication, a 12-second browser timeout, consistent error translation, and backend validation messages. There are no hardcoded successful responses.
@@ -56,7 +56,7 @@ The layout keeps one task visible at a time, with progress, field errors, and a 
 
 ## AI use and limitations
 
-OpenAI Codex assisted with the plan, implementation, tests, debugging, documentation and browser verification. Felipe specified the stack, private repository requirement, progressive commits and learning goals. Review to date includes executed type, lint, component and browser checks; it does not imply Felipe has already manually mastered or approved every generated line. The code tour supports that review before the interview. Commit authorship uses Felipe's Git identity without an AI co-author trailer.
+OpenAI Codex assisted with the plan, implementation, tests, debugging, documentation and browser verification. Felipe specified the stack, private repository requirement, progressive commits and learning goals. Generated changes were checked with type, lint, component and browser tests. The code tour supports Felipe’s ongoing manual review and interview preparation; dated validation results are recorded below. Commit authorship uses Felipe's Git identity without an AI co-author trailer.
 
 Implementation challenges included the MUI version's `sx` styling API, backend preflight configuration, and restoring state after uncertain submission responses. The application is a take-home demonstration, not an insurance product or real policy purchase. Shared reviewer credentials, USD and US ZIP codes are documented assumptions. API lists have no pagination because the challenge asks for all quotes. Browser tests against the public stand-in may fail when that external service is unavailable.
 
